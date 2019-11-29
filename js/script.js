@@ -1,8 +1,3 @@
-/******************************************
-Treehouse Techdegree:
-FSJS project 2 - List Filter and Pagination
-******************************************/
-   
 // Study guide for this project - https://drive.google.com/file/d/1OD1diUsTMdpfMDv677TfL1xO2CEkykSz/view?usp=sharing
 
 
@@ -16,7 +11,10 @@ FSJS project 2 - List Filter and Pagination
    will only be used inside of a function, then it can be locally 
    scoped to that function.
 ***/
-
+// selecting the 54 items inside the student-list
+const listItem = document.querySelector('.student-list');
+// number of pages needed to display the 54 items
+const numOfPages = Math.ceil(listItem.children.length/10);
 
 
 
@@ -35,6 +33,19 @@ FSJS project 2 - List Filter and Pagination
        "invoke" the function 
 ***/
 
+const showPage = (list, page)=>{
+   let start = ((page * 10) - 10);
+   let end = (page * 10);
+
+   for(var i=0; i<listItem.children.length; i++ ){
+      if(list.children[i]>= start && list[i]<= end){
+         list.children[i].style.display = "initial";
+      }
+      else{
+         list.children[i].style.display = "none";
+      }
+   }
+}
 
 
 
