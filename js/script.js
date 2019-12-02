@@ -15,8 +15,14 @@
 const listItem = document.querySelector('.student-list');
 // number of pages needed to display the 54 items
 const numOfPages = Math.ceil(listItem.children.length/10);
-
-
+//creating div element
+const div = document.createElement('div');
+div.className = "pagination";
+//creating ul element
+const ul = document.createElement('ul');
+// selecting page class to add the pagination link
+const pageDiv = document.querySelector('.page');
+pageDiv.appendChild(div);
 
 /*** 
    Create the `showPage` function to hide all of the items in the 
@@ -33,13 +39,13 @@ const numOfPages = Math.ceil(listItem.children.length/10);
        "invoke" the function 
 ***/
 
-const showPage = (list, page)=>{
-   let start = ((page * 10) - 10);
-   let end = (page * 10);
-
+const showPage = (list, page) =>{
+   
+      let start = page-9 ;
+      let end = page;
    for(var i=0; i<listItem.children.length; i++ ){
-      if(list.children[i]>= start && list[i]<= end){
-         list.children[i].style.display = "initial";
+      if(i >= start && i <= end){
+         list.children[i].style.display = "block";
       }
       else{
          list.children[i].style.display = "none";
@@ -48,13 +54,48 @@ const showPage = (list, page)=>{
 }
 
 
+const appendPageLinks = () =>{
 
+   
+   for(let i=1; i<=numOfPages; i++){
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.textContent = i;
+      a.setAttribute =('href','#');
+      if(parseInt(a.textContent) === 1){
+         a.className = "active";
+      }
+      
+      a.addEventListener ('click', (e) => {
+         const aTag = document.querySelectorAll('a');
+         const currentLink = parseInt(e.target.textContent);
+         for(let j =0; j<aTag.length; j++){
+            const pageLink = aTag[j];
+            const linkNumber = parseInt(pageLink.textContent);
+            if(linkNumber === currentLink){
+               pageLink.setAttribute('class', 'active');
+            }
+            else{
+               pageLink.removeAttribute('class');
+            }
+         }
+         showPage(listItem, currentLink * 10);
+      });
+      li.appendChild(a);
+      ul.appendChild(li);
+   }
+   div.appendChild(ul);
+}
 /*** 
    Create the `appendPageLinks function` to generate, append, and add 
    functionality to the pagination buttons.
 ***/
 
+// Initiate to first 10 students
+showPage(listItem, 10);
 
+// Generate the page links
+appendPageLinks();
 
 
 
